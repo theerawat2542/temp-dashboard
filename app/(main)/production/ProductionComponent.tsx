@@ -8,7 +8,7 @@ import { ImSpinner2 } from "react-icons/im";
 import EChartComponent from "../components/EChartComponent";
 
 const ProductionComponent = () => {
-  const [plant] = useState<string>("9771");
+  const [plant, setplant] = useState<string>("9771");
   const [dateRange, setDateRange] = useState<Range[]>([
     {
       startDate: moment().startOf("month").toDate(),
@@ -28,7 +28,7 @@ const ProductionComponent = () => {
 
     try {
       const { rows } = await fetch(
-        `/api/completerate?startdate=${startDateStr}&enddate=${endDateStr}`
+        `/api/completerate?startdate=${startDateStr}&enddate=${endDateStr}&plant=${plant}`
       ).then((res) => res.json());
       setchartData(rows);
     } catch (error) {
@@ -37,7 +37,7 @@ const ProductionComponent = () => {
     } finally {
       setisLoading(false);
     }
-  }, [dateRange]);
+  }, [dateRange, plant]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -177,6 +177,7 @@ const ProductionComponent = () => {
     <div>
       <Navbar
         plant={plant}
+        setplant={setplant}
         daterange={dateRange}
         setdaterange={setDateRange}
         onsubmit={onsubmit}
