@@ -8,7 +8,7 @@ import { ECOption } from "@/app/types/chart-type";
 import { ImSpinner2 } from "react-icons/im";
 
 const MaterialReceiptComponent = () => {
-  const [plant] = useState<string>("9771");
+  const [plant, setplant] = useState<string>("9771");
   const [dateRange, setDateRange] = useState<Range[]>([
     {
       startDate: moment().startOf("month").toDate(),
@@ -27,7 +27,7 @@ const MaterialReceiptComponent = () => {
 
     try {
       const { rows } = await fetch(
-        `/api/material?startdate=${startDateStr}&enddate=${endDateStr}`
+        `/api/material?startdate=${startDateStr}&enddate=${endDateStr}&plant=${plant}`
       ).then((res) => res.json());
       setchartData(rows);
     } catch (error) {
@@ -36,7 +36,7 @@ const MaterialReceiptComponent = () => {
     } finally {
       setisLoading(false);
     }
-  }, [dateRange]);
+  }, [dateRange, plant]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -150,6 +150,7 @@ const MaterialReceiptComponent = () => {
     <div>
       <Navbar
         plant={plant}
+        setplant={setplant}
         daterange={dateRange}
         setdaterange={setDateRange}
         onsubmit={onsubmit}
