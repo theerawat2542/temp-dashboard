@@ -1,5 +1,5 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import CurrentTime from "./CurrentTime";
 import { DateRangePicker, Range, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css";
@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 
 type Props = {
   plant: string;
+  setplant: Dispatch<SetStateAction<string>>;
   daterange: Range[];
   setdaterange: Dispatch<React.SetStateAction<Range[]>>;
   onsubmit: () => void;
@@ -18,6 +19,7 @@ type Props = {
 
 const Navbar = ({
   plant,
+  setplant,
   daterange,
   setdaterange,
   onsubmit,
@@ -45,6 +47,11 @@ const Navbar = ({
     }
   }
 
+  function handlePlantSelectChange(event: ChangeEvent<HTMLSelectElement>) {
+    console.log("plant: ", event.target.value)
+    setplant(event.target.value);
+  }
+
   return (
     <nav
       className="h-8 md:h-12 xl:h-20 w-full flex items-center text-haier-text-gray bg-gradient-to-b from-haier-dark to-haier-blue bg-opacity-20 text-[11px] lg:text-lg box-border pr-8 lg:pr-4"
@@ -65,10 +72,12 @@ const Navbar = ({
             id="plant"
             className="text-[#445e81] shadow-none bg-opacity-0 bg-inherit border-2 rounded-sm border-[#193b69] focus:outline-none w-14"
             defaultValue={plant}
+            value={plant}
+            onChange={handlePlantSelectChange}
           >
             <option value="9771">RF</option>
-            {/* <option value="9773">WAC</option>
-            <option value="9774">SAC</option> */}
+            <option value="9773">WAC</option>
+            <option value="9774">SAC</option>
           </select>
         </div>
         <div>
