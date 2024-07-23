@@ -7,9 +7,10 @@ import { calc_percent_rate } from "@/app/lib/delivery_helpers";
 import { AttendanceType } from "@/app/types/attedance-type";
 import EChartComponent from "./EChartComponent";
 import { ECOption } from "@/app/types/chart-type";
+import { useSearchParams } from "next/navigation";
 
 const AttendanceComponent = () => {
-  const [plant] = useState<string>("9771");
+  const [plant, setplant] = useState<string>("9771");
   const [dateRange, setDateRange] = useState<Range[]>([
     {
       startDate: new Date(),
@@ -43,7 +44,9 @@ const AttendanceComponent = () => {
     setisLoading(true);
 
     try {
-      const { rows } = await fetch(`/api/attendance`).then((res) => res.json());
+      const { rows } = await fetch(`/api/attendance?plant=${plant}`).then(
+        (res) => res.json()
+      );
       const newArr = rows.map(
         ({ total, act, divisionName }: AttendanceType) => ({
           total,
@@ -179,6 +182,7 @@ const AttendanceComponent = () => {
     <div>
       <Navbar
         plant={plant}
+        setplant={setplant}
         daterange={dateRange}
         setdaterange={setDateRange}
         onsubmit={onsubmit}
