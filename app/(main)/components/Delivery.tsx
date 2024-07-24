@@ -10,7 +10,7 @@ import EChartComponent from "./EChartComponent";
 import { ECOption } from "@/app/types/chart-type";
 
 const Delivery = () => {
-  const [plant] = useState<string>("9771");
+  const [plant, setplant] = useState<string>("9771");
   const [dateRange, setDateRange] = useState<Range[]>([
     {
       startDate: moment().startOf("month").toDate(),
@@ -29,7 +29,7 @@ const Delivery = () => {
     // console.log(startDateStr, endDateStr)
     try {
       const { rows } = await fetch(
-        `/api/delivery?startdate=${startDateStr}&enddate=${endDateStr}`
+        `/api/delivery?startdate=${startDateStr}&enddate=${endDateStr}&plant=${plant}`
       ).then((res) => res.json());
       const newArr = rows.map(
         ({ month_week, allQty, timelyQty }: DeliveryDataType) => ({
@@ -46,7 +46,7 @@ const Delivery = () => {
     } finally {
       setisLoading(false);
     }
-  }, [dateRange]);
+  }, [dateRange, plant]);
 
   const onsubmit = async () => {
     fetchingData();
@@ -189,6 +189,7 @@ const Delivery = () => {
     <div>
       <Navbar
         plant={plant}
+        setplant={setplant}
         daterange={dateRange}
         setdaterange={setDateRange}
         onsubmit={onsubmit}

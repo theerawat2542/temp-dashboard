@@ -33,7 +33,7 @@ const AttendanceComponent = () => {
 
     // Clear the interval when the component unmounts or dependencies change
     return () => clearInterval(interval);
-  }, [intervalNumber]);
+  }, [intervalNumber, plant]);
 
   const onsubmit = async () => {
     fetchingData();
