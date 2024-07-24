@@ -200,8 +200,7 @@ const Dashboard: React.FC = () => {
               "100%": stateCounts["HC"] > 0 ? stateColors["HC"] : "transparent",
             }}
             trailColor="#B7B5B5"
-            size="default"
-            className="custom-progress"
+            strokeWidth={50}
           />
           {stateOrder.map((state, index) => {
             const count = stateCounts[state] || 0;
@@ -225,12 +224,12 @@ const Dashboard: React.FC = () => {
                 key={state}
                 style={{
                   position: "absolute",
-                  top: positionTop ? "-110%" : "90%",
+                  top: positionTop ? "-90%" : "100%",
                   left: `${cumulativePercentage}%`,
                   transform: "translateX(-50%)",
                   textAlign: "center",
                   color: "white",
-                  zIndex: 10, // Ensure text is above progress bar
+                //   zIndex: 10, // Ensure text is above progress bar
                 }}
               >
                 <img
@@ -242,13 +241,13 @@ const Dashboard: React.FC = () => {
                     marginBottom: "8px",
                     filter: "brightness(0) invert(1)",
                     position: "absolute",
-                    top: positionTop ? "-45%" : "90%",
-                    transform: "translateX(-50%)",
-                    zIndex: 10,
+                    top: positionTop ? "-110%" : "120%",
+                    transform: "translateX(0%)",
+                    // zIndex: 10,
                   }}
                 />
-                <div style={{ marginTop: "8px" }}>
-                  <h2>{percentage}%</h2>
+                <div style={{ marginTop: "10px", fontSize: "19px" }}>
+                  <h1>{percentage}%</h1>
                 </div>
               </div>
             );

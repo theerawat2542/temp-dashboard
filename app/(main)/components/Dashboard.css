@@ -13,7 +13,7 @@
   
   .white-image2 {
     filter: brightness(0) invert(1);
-    width: 100px;
+    width: 120px;
     height: 100px;
     /* margin-top: 0px; */
   }
@@ -30,12 +30,4 @@
     width: 100%;
     color: white;
     font-weight: bold;
-  }
-
-  .custom-progress .ant-progress-inner {
-    height: 50px; /* Set your desired height here */
-  }
-  
-  .custom-progress .ant-progress-bg {
-    height: 50px; /* Set your desired height here */
   }
