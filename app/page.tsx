@@ -13,7 +13,7 @@ export default function Home() {
     { url: "/attendance", name: "Attendance" },
     { url: "/production", name: "CompleteRate" },
     { url: "/mainlayout", name: "MainLayout" },
-    { url: "/dashboard", name: "Dashboard" },
+    { url: "/repair", name: "Repair Rate" },
   ];
   return (
     <main className="bg-[url('/assets/images/mainbg.png')] bg-cover aspect-auto w-full h-screen text-white">
