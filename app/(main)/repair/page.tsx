@@ -1,4 +1,5 @@
 import React from "react";
+import RedirectNavbar from "../components/RedirectNavbar";
 import RepairComponent from "./RepairComponent";
 
 type Props = {
@@ -7,23 +8,14 @@ type Props = {
   };
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-async function fetchRepairData(plant: string | null) {
-  "use server";
-  const res = await fetch(`${API_URL}/api/repair_rate?plant=${plant}`, {
-    cache: "no-cache",
-  }).then((res) => res.json());
-  return res;
-}
-
 const RepairPage = async ({ searchParams }: Props) => {
-  // const data = searchParams.plant
-  const data = await fetchRepairData(searchParams.plant);
+  const { plant } = searchParams;
+
   return (
     <section>
       {/* Navbar */}
-      <RepairComponent data={data} fetchRepairData={fetchRepairData} />
+      <RedirectNavbar plant={plant} />
+      <RepairComponent />
     </section>
   );
 };

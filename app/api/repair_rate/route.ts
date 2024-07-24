@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ rows }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Something went wrong!", error });
+    return NextResponse.json({ message: "Something went wrong!", error }, {status: 500});
   } finally {
     connectMESdb?.destroy();
   }

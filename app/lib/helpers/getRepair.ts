@@ -9,7 +9,7 @@ export async function getRepair(connection: Connection, plant: string) {
             COUNT(p.WorkUser_BarCode) - COUNT(CASE WHEN y.RepairEndTime IS NOT NULL THEN 1 END) as remain_qty,
             n.WorkUser_LineCode as line_code,
             t.Work_Cell_Desc AS scan_station 
-        FROM cosmo_im_${plant}.bns_qm_processtestdetail de -- detail scan defect
+        FROM cosmo_im_${plant}.bns_qm_processtestdetail de
         INNER JOIN cosmo_im_${plant}.bns_qm_processtest p USE INDEX (TestTime_index)
             ON p.ProcessTest_ID = de.ProcessTest_ID AND p.TestResult = 0
         LEFT JOIN cosmo_im_${plant}.bns_pm_operation n

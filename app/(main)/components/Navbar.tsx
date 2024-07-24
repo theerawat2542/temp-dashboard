@@ -64,7 +64,7 @@ const Navbar = ({
         </h1>
       </div>
       {/* Input Parameter */}
-      <div className="flex flex-grow justify-between text-white">
+      <div className="flex flex-grow justify-between">
         <div>
           <label htmlFor="plant">Plant:</label>
           <select

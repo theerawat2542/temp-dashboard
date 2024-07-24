@@ -1,22 +1,22 @@
 "use client";
-import { RepairI } from "@/app/types/repair-type";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-type Props = {
-  data: RepairI[];
-  fetchRepairData: (plant: string | null) => Promise<any>;
-};
-
-const RepairComponent = ({ data, fetchRepairData }: Props) => {
+const RepairComponent = () => {
   const searchParams = useSearchParams();
   const plant = searchParams.get("plant");
-  const [dataList, setdataList] = useState(data);
+  const [dataList, setdataList] = useState([]);
+
+  function fetchRepairData() {
+    fetch(`/api/repair_rate?plant=${plant}`)
+      .then((res) => res.json())
+      .then((data) => setdataList(data.rows));
+  }
 
   useEffect(() => {
+    fetchRepairData();
     const interval = setInterval(async () => {
-      const updateData = await fetchRepairData(plant);
-      setdataList(updateData);
+      fetchRepairData();
     }, 1000 * 5);
 
     return () => {
@@ -24,11 +24,43 @@ const RepairComponent = ({ data, fetchRepairData }: Props) => {
     };
   }, [plant]);
 
-  if (dataList.length < 1) {
-    return <div>No Data!</div>;
-  }
+  return (
+    <div className="mt-5">
+      <table className="text-white">
+        <thead>
+          <tr>
+            <th>line</th>
+            <th>scan station</th>
+            <th>input</th>
+            <th>output</th>
+            <th>remain</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataList?.map(
+            ({
+              input_qty,
+              output_qty,
+              remain_qty,
+              line_code,
+              scan_station,
+            }) => (
+              <tr key={line_code + scan_station}>
+                <td>{line_code}</td>
+                <td>{scan_station}</td>
+                <td>{input_qty}</td>
+                <td>{output_qty}</td>
+                <td>{remain_qty}</td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
 
-  return <div>{JSON.stringify(data)}</div>;
+      {/* Layout */}
+      <div></div>
+    </div>
+  );
 };
 
 export default RepairComponent;
