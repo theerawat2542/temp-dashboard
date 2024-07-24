@@ -35,7 +35,7 @@ const stateImages: Record<string, string> = {
 };
 
 const Dashboard: React.FC = () => {
-  const [plant, setPlant] = useState<string>("");
+  const [plant, setPlant] = useState<string>("9771");
   const [stateCounts, setStateCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -242,7 +242,7 @@ const Dashboard: React.FC = () => {
                     filter: "brightness(0) invert(1)",
                     position: "absolute",
                     top: positionTop ? "-110%" : "120%",
-                    transform: "translateX(0%)",
+                    transform: "translateX(15%)",
                     // zIndex: 10,
                   }}
                 />
