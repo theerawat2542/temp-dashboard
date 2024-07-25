@@ -9,7 +9,7 @@ type Props = {
 };
 
 const RedirectNavbar = ({ plant }: Props) => {
-  const [plantName, setplantName] = useState(plant);
+  const [plantName, setplantName] = useState(plant || "");
   const router = useRouter();
 
   function handlePlantSelectChange(event: ChangeEvent<HTMLSelectElement>) {
@@ -36,6 +36,7 @@ const RedirectNavbar = ({ plant }: Props) => {
             value={plant}
             onChange={handlePlantSelectChange}
           >
+            <option value="">Select Plant</option>
             <option value="9771">RF</option>
             <option value="9773">WAC</option>
             <option value="9774">SAC</option>
