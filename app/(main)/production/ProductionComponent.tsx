@@ -8,7 +8,7 @@ import { ImSpinner2 } from "react-icons/im";
 import EChartComponent from "../components/EChartComponent";
 
 const ProductionComponent = () => {
-  const [plant, setplant] = useState<string>("9771");
+  const [plant, setPlant] = useState<string>("9771");
   const [dateRange, setDateRange] = useState<Range[]>([
     {
       startDate: moment().startOf("month").toDate(),
@@ -16,12 +16,13 @@ const ProductionComponent = () => {
       key: "selection",
     },
   ]);
-  const [isLoading, setisLoading] = useState<boolean>(false);
-  const [chartData, setchartData] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [chartData, setChartData] = useState([]);
   const [chartType, setChartType] = useState<"bar" | "line">("bar");
+
   const fetchingData = useCallback(async () => {
     console.log("fetching completerate data...");
-    setisLoading(true);
+    setIsLoading(true);
     const { startDate, endDate } = dateRange[0];
     const startDateStr = moment(startDate).format("YYYY-MM-DD");
     const endDateStr = moment(endDate).format("YYYY-MM-DD");
@@ -30,12 +31,12 @@ const ProductionComponent = () => {
       const { rows } = await fetch(
         `/api/completerate?startdate=${startDateStr}&enddate=${endDateStr}&plant=${plant}`
       ).then((res) => res.json());
-      setchartData(rows);
+      setChartData(rows);
     } catch (error) {
       alert("Something went wrong! Please contact IT department");
       console.log("error:", error);
     } finally {
-      setisLoading(false);
+      setIsLoading(false);
     }
   }, [dateRange, plant]);
 
@@ -51,7 +52,21 @@ const ProductionComponent = () => {
     return () => clearInterval(interval);
   }, [fetchingData]);
 
-  const onsubmit = async () => {
+  useEffect(() => {
+    if (plant === "9773" || plant === "9774") {
+      const plantSwitchInterval = setInterval(() => {
+        setPlant((prevPlant) => (prevPlant === "9773" ? "9774" : "9773"));
+      }, 5 * 60 * 1000);
+
+      return () => clearInterval(plantSwitchInterval);
+    }
+  }, [plant]);
+
+  useEffect(() => {
+    fetchingData();
+  }, [plant, fetchingData]);
+
+  const onSubmit = async () => {
     fetchingData();
   };
 
@@ -61,10 +76,7 @@ const ProductionComponent = () => {
   const uniqueArr = categories.filter(
     (value, index, self) => self.indexOf(value) === index
   );
-  // const arr1 = categories.forEach((item, index) => {
-  //   if (condition) {
-  //   }
-  // });
+  
   const pendingRateA: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "RA")
     .map(({ PendingRate }: any) => parseFloat(PendingRate));
@@ -73,14 +85,11 @@ const ProductionComponent = () => {
     .map(({ PendingRate }: any) => parseFloat(PendingRate));
 
   const duplicateArr: number[] = [];
-  const filteredArr = uniqueArr.forEach((item, index: number) => {
-    console.log(pendingRateA[index], pendingRateB[index])
+  uniqueArr.forEach((item, index: number) => {
     if (pendingRateA[index] === 0 && pendingRateB[index] === 0) {
       duplicateArr.push(index);
     }
   });
-  console.log(uniqueArr);
-  console.log(duplicateArr);
 
   const chartOption: ECOption = {
     tooltip: {
@@ -177,10 +186,10 @@ const ProductionComponent = () => {
     <div>
       <Navbar
         plant={plant}
-        setplant={setplant}
+        setplant={setPlant}
         daterange={dateRange}
         setdaterange={setDateRange}
-        onsubmit={onsubmit}
+        onsubmit={onSubmit}
       />
       {isLoading && (
         <div className="h-[calc(100vh-80px)] overflow-auto w-full text-blue-600 flex flex-col justify-center items-center">

@@ -6,15 +6,15 @@ import dayjs from "dayjs";
 import "./Dashboard.css";
 
 // Import images
-import NotHavePO from "./assets/Not-Have-PO.png";
-import PONotEnough from "./assets/PO-Not-Enough.png";
-import Delivering from "./assets/Delivering.png";
-import Pickup from "./assets/Pickup.png";
-import Handover from "./assets/Handover.png";
-import Supplier from "./assets/Supplier.png";
-import Factory from "./assets/Factory.png";
+// import NotHavePO from "../assets/images/dashboard/Not-Have-PO.png";
+// import PONotEnough from "../assets/images/dashboard/PO-Not-Enough.png";
+// import Delivering from "../assets/images/dashboard/Delivering.png";
+// import Pickup from "../assets/images/dashboard/Pickup.png";
+// import Handover from "../assets/images/dashboard/Handover.png";
+// import Supplier from "../assets/images/dashboard/Supplier.png";
+// import Factory from "../assets/images/dashboard/Factory.png";
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const stateDescriptions: Record<string, string> = {
   CS3: "Don't have PO",
@@ -27,15 +27,19 @@ const stateDescriptions: Record<string, string> = {
 const stateOrder: string[] = ["CS3", "CS2", "CS1", "OP", "HC"];
 
 const stateImages: Record<string, string> = {
-  CS3: NotHavePO.src,
-  CS2: PONotEnough.src,
-  CS1: Delivering.src,
-  OP: Pickup.src,
-  HC: Handover.src,
+  CS3: "../assets/images/dashboard/Not-Have-PO.png",
+  CS2: "../assets/images/dashboard/PO-Not-Enough.png",
+  CS1: "../assets/images/dashboard/Delivering.png",
+  OP: "../assets/images/dashboard/Pickup.png",
+  HC: "../assets/images/dashboard/Handover.png",
 };
 
-const Dashboard: React.FC = () => {
-  const [plant, setPlant] = useState<string>("9771");
+type DashboardProps = {
+  plant: string;
+};
+
+const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
+  // const [plant, setPlant] = useState<string>("9774");
   const [stateCounts, setStateCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -66,10 +70,10 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handlePlantChange = (value: string) => {
-    setPlant(value);
-    fetchData(value);
-  };
+  // const handlePlantChange = (value: string) => {
+  //   setPlant(value);
+  //   fetchData(value);
+  // };
 
   const getTotalCount = (): number => {
     return Object.values(stateCounts).reduce((acc, count) => acc + count, 0);
@@ -116,7 +120,7 @@ const Dashboard: React.FC = () => {
           <Spin tip="Loading..." size="large" />
         </div>
       )}
-      <div style={{ marginBottom: 40, marginTop: 10, marginLeft: 10 }}>
+      {/* <div style={{ marginBottom: 40, marginTop: 10, marginLeft: 10 }}>
         <b style={{ color: "white" }}>Plant:</b>
         <Select
           value={plant}
@@ -129,7 +133,7 @@ const Dashboard: React.FC = () => {
           <Option value="9773">WAC</Option>
           <Option value="9774">SAC</Option>
         </Select>
-      </div>
+      </div> */}
       <div
         style={{
           display: "flex",
@@ -137,13 +141,13 @@ const Dashboard: React.FC = () => {
           gap: "30px",
           alignItems: "center",
         }}
-        className="centered"
+        // className="centered"
       >
         <div className="image-container">
-          <img src={Supplier.src} className="white-image2" alt="Supplier" />
+          <img src={"../assets/images/dashboard/Supplier.png"} className="white-image2" alt="Supplier" />
           <div className="image-text">Supplier</div>
         </div>
-        <div style={{ width: "75vw", position: "relative" }}>
+        <div style={{ width: "80vw", position: "relative", marginTop: "50px" }}>
           <Progress
             percent={100}
             status="active"
@@ -200,7 +204,7 @@ const Dashboard: React.FC = () => {
               "100%": stateCounts["HC"] > 0 ? stateColors["HC"] : "transparent",
             }}
             trailColor="#B7B5B5"
-            strokeWidth={50}
+            strokeWidth={25}
           />
           {stateOrder.map((state, index) => {
             const count = stateCounts[state] || 0;
@@ -224,7 +228,7 @@ const Dashboard: React.FC = () => {
                 key={state}
                 style={{
                   position: "absolute",
-                  top: positionTop ? "-90%" : "100%",
+                  top: positionTop ? "-180%" : "100%",
                   left: `${cumulativePercentage}%`,
                   transform: "translateX(-50%)",
                   textAlign: "center",
@@ -241,7 +245,7 @@ const Dashboard: React.FC = () => {
                     marginBottom: "8px",
                     filter: "brightness(0) invert(1)",
                     position: "absolute",
-                    top: positionTop ? "-110%" : "120%",
+                    top: positionTop ? "-90%" : "120%",
                     transform: "translateX(15%)",
                     // zIndex: 10,
                   }}
@@ -254,7 +258,7 @@ const Dashboard: React.FC = () => {
           })}
         </div>
         <div className="image-container">
-          <img src={Factory.src} className="white-image2" alt="Factory" />
+          <img src={"../assets/images/dashboard/Factory.png"} className="white-image2" alt="Factory" />
           <div className="image-text">Factory</div>
         </div>
       </div>
@@ -263,7 +267,7 @@ const Dashboard: React.FC = () => {
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          marginTop: 30,
+          marginTop: 130,
           justifyContent: "center",
           alignItems: "flex-start",
           gap: "50px",
@@ -278,13 +282,13 @@ const Dashboard: React.FC = () => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "3px",
+                gap: "4px",
               }}
             >
               <div
                 style={{
-                  width: "20px",
-                  height: "20px",
+                  width: "15px",
+                  height: "15px",
                   backgroundColor: color,
                 }}
               ></div>
