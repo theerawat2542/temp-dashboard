@@ -4,4 +4,5 @@ export interface RepairI {
   remain_qty: number;
   line_code: string;
   scan_station: string;
+  rank: number;
 }
