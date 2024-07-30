@@ -10,7 +10,7 @@ type Props = {
 
 async function getIdleTime(plant: string | null, prod_line: string | null) {
   "use server";
-  const API_URL: string | undefined = process.env.NEXT_PUBLIC_API_URL;
+  const API_URL: string | undefined = process.env.API_URL;
   // console.log("fetching data...");
   const { row } = await fetch(
     `${API_URL}/api/mainlayout?plant=${plant}&prod_line=${prod_line}`,
