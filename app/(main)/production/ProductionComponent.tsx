@@ -1,11 +1,11 @@
 "use client";
-import { ECOption } from "@/app/types/chart-type";
+// import { ECOption } from "@/app/types/chart-type";
 import moment from "moment";
 import React, { useEffect, useState, useCallback, ChangeEvent } from "react";
 import { Range } from "react-date-range";
 import Navbar from "../components/Navbar";
 import { ImSpinner2 } from "react-icons/im";
-import EChartComponent from "../components/EChartComponent";
+// import EChartComponent from "../components/EChartComponent";
 import ChartOptionRF from "../components/ChartOptionRF";
 import ChartOptionWAC from "../components/ChartOptionWAC";
 import ChartOptionSAC from "../components/ChartOptionSAC";
@@ -84,69 +84,95 @@ const ProductionComponent = () => {
   const RFRA: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "RA")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const RFRB: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "RB")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
 
-  const WACW1: any[] = chartData
+    const WACW1: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "W1")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const WACW2: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "W2")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const WACWC: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "WC")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
 
   const SACW1: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "W1")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACW2: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "W2")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACIN: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "IN")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACN2: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "N2")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACN3: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "N3")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACOU: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "OU")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACU2: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "U2")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
   const SACU3: any[] = chartData
     .filter(({ ProdLine }: any) => ProdLine === "U3")
     .map(({ PendingRate, CompleteRate }: any) =>
-      chartRate === "PendingRate" ? parseFloat(PendingRate) : parseFloat(CompleteRate)
+      chartRate === "PendingRate"
+        ? parseFloat(parseFloat(PendingRate).toFixed(2))
+        : parseFloat(parseFloat(CompleteRate).toFixed(2))
     );
 
   const duplicateArr: number[] = [];

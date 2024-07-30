@@ -124,7 +124,7 @@ const ChartOptionSAC = ({ uniqueArr, duplicateArr, chartRate, chartType, SACW1, 
           fontSize: 14,
         },
         itemStyle: {
-          color: "#07478a",
+          color: "#7a61f7",
         },
       },
       {
@@ -156,7 +156,7 @@ const ChartOptionSAC = ({ uniqueArr, duplicateArr, chartRate, chartType, SACW1, 
           fontSize: 14,
         },
         itemStyle: {
-          color: "#a6638b",
+          color: "#d743fb",
         },
       },
       {
@@ -172,7 +172,7 @@ const ChartOptionSAC = ({ uniqueArr, duplicateArr, chartRate, chartType, SACW1, 
           fontSize: 14,
         },
         itemStyle: {
-          color: "#8b3a3a",
+          color: "#f56f3d",
         },
       },
       {
@@ -188,7 +188,7 @@ const ChartOptionSAC = ({ uniqueArr, duplicateArr, chartRate, chartType, SACW1, 
           fontSize: 14,
         },
         itemStyle: {
-          color: "#6b4f4f",
+          color: "#e7fb43",
         },
       },
     ],

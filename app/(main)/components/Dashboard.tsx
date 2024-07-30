@@ -248,8 +248,8 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
               >
                 <Image
                   src={stateImages[state]}
-                  width={90}
-                  height={90}
+                  width={40}
+                  height={40}
                   alt={state}
                   style={{
                     marginBottom: "8px",
