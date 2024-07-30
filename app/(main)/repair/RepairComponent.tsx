@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import RepairStation from "./RepairStation";
 import { RepairI } from "@/app/types/repair-type";
 
@@ -9,11 +9,11 @@ const RepairComponent = () => {
   const plant = searchParams.get("plant");
   const [dataList, setdataList] = useState<RepairI[]>([]);
 
-  function fetchRepairData() {
+  const fetchRepairData = useCallback(() => {
     fetch(`/api/repair_rate?plant=${plant}`)
       .then((res) => res.json())
       .then((data) => setdataList(data.rows));
-  }
+  }, [plant]);
 
   useEffect(() => {
     fetchRepairData();
@@ -24,7 +24,7 @@ const RepairComponent = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [plant]);
+  }, [fetchRepairData]);
 
   const lineList = dataList
     .map(({ line_code }) => line_code)
@@ -42,13 +42,15 @@ const RepairComponent = () => {
     <div className="mt-5 container mx-auto h-[screen-80px]">
       {lineList.map((line) => (
         <div className="m-3" key={line}>
-          <div className="border-2 border-haier-blue p-2 text-center mb-3 text-white">{line}</div>
+          <div className="border-2 border-haier-blue p-2 text-center mb-3 text-white">
+            {line}
+          </div>
           <div className="grid grid-cols-4 gap-2">
             {dataList
               .filter(({ line_code }) => line_code === line)
               .sort((a, b) => a.rank - b.rank)
               .map((item) => (
-                <RepairStation repairData={item} />
+                <RepairStation repairData={item} key={item.rank} />
               ))}
           </div>
         </div>

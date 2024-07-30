@@ -4,6 +4,7 @@ import axios from "axios";
 import { Select, message, Progress, Spin } from "antd";
 import dayjs from "dayjs";
 import "./Dashboard.css";
+import Image from "next/image";
 
 // Import images
 // import NotHavePO from "../assets/images/dashboard/Not-Have-PO.png";
@@ -27,11 +28,11 @@ const stateDescriptions: Record<string, string> = {
 const stateOrder: string[] = ["CS3", "CS2", "CS1", "OP", "HC"];
 
 const stateImages: Record<string, string> = {
-  CS3: "../assets/images/dashboard/Not-Have-PO.png",
-  CS2: "../assets/images/dashboard/PO-Not-Enough.png",
-  CS1: "../assets/images/dashboard/Delivering.png",
-  OP: "../assets/images/dashboard/Pickup.png",
-  HC: "../assets/images/dashboard/Handover.png",
+  CS3: "/assets/images/dashboard/Not-Have-PO.png",
+  CS2: "/assets/images/dashboard/PO-Not-Enough.png",
+  CS1: "/assets/images/dashboard/Delivering.png",
+  OP: "/assets/images/dashboard/Pickup.png",
+  HC: "/assets/images/dashboard/Handover.png",
 };
 
 type DashboardProps = {
@@ -57,10 +58,13 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
       const response = await axios.get(apiUrl);
       const data = response.data;
 
-      const counts: Record<string, number> = data.reduce((acc: Record<string, number>, item: { state: string }) => {
-        acc[item.state] = (acc[item.state] || 0) + 1;
-        return acc;
-      }, {});
+      const counts: Record<string, number> = data.reduce(
+        (acc: Record<string, number>, item: { state: string }) => {
+          acc[item.state] = (acc[item.state] || 0) + 1;
+          return acc;
+        },
+        {}
+      );
 
       setStateCounts(counts);
       setLoading(false);
@@ -144,7 +148,13 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
         // className="centered"
       >
         <div className="image-container">
-          <img src={"../assets/images/dashboard/Supplier.png"} className="white-image2" alt="Supplier" />
+          <Image
+            src={"/assets/images/dashboard/Supplier.png"}
+            width={90}
+            height={90}
+            className="white-image2"
+            alt="Supplier"
+          />
           <div className="image-text">Supplier</div>
         </div>
         <div style={{ width: "80vw", position: "relative", marginTop: "50px" }}>
@@ -204,7 +214,7 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
               "100%": stateCounts["HC"] > 0 ? stateColors["HC"] : "transparent",
             }}
             trailColor="#B7B5B5"
-            strokeWidth={25}
+            size={['100%', 25]}
           />
           {stateOrder.map((state, index) => {
             const count = stateCounts[state] || 0;
@@ -233,15 +243,15 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
                   transform: "translateX(-50%)",
                   textAlign: "center",
                   color: "white",
-                //   zIndex: 10, // Ensure text is above progress bar
+                  //   zIndex: 10, // Ensure text is above progress bar
                 }}
               >
-                <img
+                <Image
                   src={stateImages[state]}
+                  width={90}
+                  height={90}
                   alt={state}
                   style={{
-                    width: "35px",
-                    height: "35px",
                     marginBottom: "8px",
                     filter: "brightness(0) invert(1)",
                     position: "absolute",
@@ -258,7 +268,13 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
           })}
         </div>
         <div className="image-container">
-          <img src={"../assets/images/dashboard/Factory.png"} className="white-image2" alt="Factory" />
+          <Image
+            src={"/assets/images/dashboard/Factory.png"}
+            width={90}
+            height={90}
+            className="white-image2"
+            alt="Factory"
+          />
           <div className="image-text">Factory</div>
         </div>
       </div>

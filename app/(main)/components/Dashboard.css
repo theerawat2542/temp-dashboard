@@ -7,14 +7,11 @@
   
    .white-image {
     filter: brightness(0) invert(1);
-    width: 40px;
     margin-bottom: 10px;
   }
   
   .white-image2 {
     filter: brightness(0) invert(1);
-    width: 90px;
-    height: 90px;
     /* margin-top: 0px; */
   }
   
