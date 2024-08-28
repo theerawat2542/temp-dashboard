@@ -124,7 +124,7 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
             zIndex: 1000,
           }}
         >
-          <Spin tip="Loading..." size="large" />
+          <Spin size="large" />
         </div>
       )}
       <div
