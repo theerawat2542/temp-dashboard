@@ -6,31 +6,22 @@ import dayjs from "dayjs";
 import "./Dashboard.css";
 import Image from "next/image";
 
-// Import images
-// import NotHavePO from "../assets/images/dashboard/Not-Have-PO.png";
-// import PONotEnough from "../assets/images/dashboard/PO-Not-Enough.png";
-// import Delivering from "../assets/images/dashboard/Delivering.png";
-// import Pickup from "../assets/images/dashboard/Pickup.png";
-// import Handover from "../assets/images/dashboard/Handover.png";
-// import Supplier from "../assets/images/dashboard/Supplier.png";
-// import Factory from "../assets/images/dashboard/Factory.png";
-
-// const { Option } = Select;
-
 const stateDescriptions: Record<string, string> = {
   CS3: "Don't have PO",
   CS2: "PO Not Enough",
   CS1: "Delivering",
+  LD: "Loading",
   OP: "Pickup",
   HC: "Handover Completed",
 };
 
-const stateOrder: string[] = ["CS3", "CS2", "CS1", "OP", "HC"];
+const stateOrder: string[] = ["CS3", "CS2", "CS1", "LD", "OP", "HC"];
 
 const stateImages: Record<string, string> = {
   CS3: "/assets/images/dashboard/Not-Have-PO.png",
   CS2: "/assets/images/dashboard/PO-Not-Enough.png",
   CS1: "/assets/images/dashboard/Delivering.png",
+  LD: "/assets/images/dashboard/Loading.png",
   OP: "/assets/images/dashboard/Pickup.png",
   HC: "/assets/images/dashboard/Handover.png",
 };
@@ -40,8 +31,8 @@ type DashboardProps = {
 };
 
 const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
-  // const [plant, setPlant] = useState<string>("9774");
   const [stateCounts, setStateCounts] = useState<Record<string, number>>({});
+  // const [LDCounts, setLDCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async (selectedPlant: string) => {
@@ -52,11 +43,16 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
 
     const currentDate = dayjs().format("YYYY-MM-DD");
     const apiUrl = `http://10.35.10.47:2003/api/Warehouse9770/GetT1ReportMain?plant=${selectedPlant}&start_date=${currentDate}&end_date=${currentDate}`;
+    const apiLD = `http://10.35.10.47:2003/api/Warehouse9770/GetT1LoadingMaterial?loading_date=${currentDate}&plant=${selectedPlant}&order_status=Loading`;
 
     setLoading(true);
     try {
-      const response = await axios.get(apiUrl);
+      const [response, responseLD] = await Promise.all([
+        axios.get(apiUrl),
+        axios.get(apiLD),
+      ]);
       const data = response.data;
+      const dataLD = responseLD.data;
 
       const counts: Record<string, number> = data.reduce(
         (acc: Record<string, number>, item: { state: string }) => {
@@ -66,18 +62,24 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
         {}
       );
 
-      setStateCounts(counts);
+      const countLD: Record<string, number> = dataLD.reduce(
+        (acc: Record<string, number>, item: { state: string }) => {
+          acc["LD"] = (acc["LD"] || 0) + 1;
+          return acc;
+        },
+        {}
+      );
+
+      const combinedCounts = { ...counts, ...countLD };
+
+      setStateCounts(combinedCounts);
+
       setLoading(false);
     } catch (err) {
       message.error("Error fetching data");
       setLoading(false);
     }
   };
-
-  // const handlePlantChange = (value: string) => {
-  //   setPlant(value);
-  //   fetchData(value);
-  // };
 
   const getTotalCount = (): number => {
     return Object.values(stateCounts).reduce((acc, count) => acc + count, 0);
@@ -100,6 +102,7 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
     CS3: "#f5222d",
     CS2: "#fa8c16",
     CS1: "#722ed1",
+    LD: "#37f7e6",
     OP: "#0464F0",
     HC: "#52c41a",
   };
@@ -124,20 +127,6 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
           <Spin tip="Loading..." size="large" />
         </div>
       )}
-      {/* <div style={{ marginBottom: 40, marginTop: 10, marginLeft: 10 }}>
-        <b style={{ color: "white" }}>Plant:</b>
-        <Select
-          value={plant}
-          onChange={handlePlantChange}
-          style={{ width: 100, marginLeft: 8 }}
-          placeholder="Select Plant"
-          disabled={loading}
-        >
-          <Option value="9771">RF</Option>
-          <Option value="9773">WAC</Option>
-          <Option value="9774">SAC</Option>
-        </Select>
-      </div> */}
       <div
         style={{
           display: "flex",
@@ -145,7 +134,6 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
           gap: "30px",
           alignItems: "center",
         }}
-        // className="centered"
       >
         <div className="image-container">
           <Image
@@ -193,11 +181,29 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
                   (stateCounts["CS1"] || 0)) /
                   totalStateCount) *
                 100
+              }%`]: stateCounts["LD"] > 0 ? stateColors["LD"] : "transparent",
+              [`${
+                (((stateCounts["CS3"] || 0) +
+                  (stateCounts["CS2"] || 0) +
+                  (stateCounts["CS1"] || 0) +
+                  (stateCounts["LD"] || 0)) /
+                  totalStateCount) *
+                  100 -
+                0.1
+              }%`]: stateCounts["LD"] > 0 ? stateColors["LD"] : "transparent",
+              [`${
+                (((stateCounts["CS3"] || 0) +
+                  (stateCounts["CS2"] || 0) +
+                  (stateCounts["CS1"] || 0) +
+                  (stateCounts["LD"] || 0)) /
+                  totalStateCount) *
+                100
               }%`]: stateCounts["OP"] > 0 ? stateColors["OP"] : "transparent",
               [`${
                 (((stateCounts["CS3"] || 0) +
                   (stateCounts["CS2"] || 0) +
                   (stateCounts["CS1"] || 0) +
+                  (stateCounts["LD"] || 0) +
                   (stateCounts["OP"] || 0)) /
                   totalStateCount) *
                   100 -
@@ -207,6 +213,7 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
                 (((stateCounts["CS3"] || 0) +
                   (stateCounts["CS2"] || 0) +
                   (stateCounts["CS1"] || 0) +
+                  (stateCounts["LD"] || 0) +
                   (stateCounts["OP"] || 0)) /
                   totalStateCount) *
                 100
@@ -214,8 +221,9 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
               "100%": stateCounts["HC"] > 0 ? stateColors["HC"] : "transparent",
             }}
             trailColor="#B7B5B5"
-            size={['100%', 25]}
+            size={["100%", 25]}
           />
+
           {stateOrder.map((state, index) => {
             const count = stateCounts[state] || 0;
             const percentage =
@@ -243,7 +251,6 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
                   transform: "translateX(-50%)",
                   textAlign: "center",
                   color: "white",
-                  //   zIndex: 10, // Ensure text is above progress bar
                 }}
               >
                 <Image
@@ -257,7 +264,6 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
                     position: "absolute",
                     top: positionTop ? "-90%" : "120%",
                     transform: "translateX(15%)",
-                    // zIndex: 10,
                   }}
                 />
                 <div style={{ marginTop: "10px", fontSize: "19px" }}>
