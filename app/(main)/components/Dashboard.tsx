@@ -42,8 +42,8 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
     }
 
     const currentDate = dayjs().format("YYYY-MM-DD");
-    const apiUrl = `http://10.35.10.47:2003/api/Warehouse9770/GetT1ReportMain?plant=${selectedPlant}&start_date=${currentDate}&end_date=${currentDate}`;
-    const apiLD = `http://10.35.10.47:2003/api/Warehouse9770/GetT1LoadingMaterial?loading_date=${currentDate}&plant=${selectedPlant}&order_status=Loading`;
+    const apiUrl = `http://10.35.10.47:2003/api/RawMaterial/WMS/T1/Get/T1Summary?plant=${selectedPlant}&start_date=${currentDate}&end_date=${currentDate}`;
+    const apiLD = `http://10.35.10.47:2003/api/RawMaterial/WMS/T1/Get/T1LoadingMaterial?loading_date=${currentDate}&plant=${selectedPlant}`;
 
     setLoading(true);
     try {
@@ -53,7 +53,7 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
       ]);
       const data = response.data;
       const dataLD = responseLD.data;
-
+    
       const counts: Record<string, number> = data.reduce(
         (acc: Record<string, number>, item: { state: string }) => {
           acc[item.state] = (acc[item.state] || 0) + 1;
@@ -73,6 +73,10 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
       const combinedCounts = { ...counts, ...countLD };
 
       setStateCounts(combinedCounts);
+
+      console.log("count", counts);
+      console.log("countLD", countLD);
+      console.log("combinedCounts", combinedCounts);
 
       setLoading(false);
     } catch (err) {
@@ -298,6 +302,7 @@ const Dashboard: React.FC<DashboardProps> = ({ plant }) => {
         {stateOrder.map((state) => {
           const count = stateCounts[state] || 0;
           const color = stateColors[state];
+          // console.log(stateCounts[state]);
           return (
             <div
               key={state}

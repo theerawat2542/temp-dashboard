@@ -31,6 +31,7 @@ const MaterialReceiptComponent = () => {
         `/api/material?startdate=${startDateStr}&enddate=${endDateStr}&plant=${plant}`
       ).then((res) => res.json());
       setChartData(rows);
+      // console.log(rows);
     } catch (error) {
       alert("Something went wrong! Please contact IT department");
       console.log("error:", error);
